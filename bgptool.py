@@ -27,18 +27,17 @@ from mod_netmiko import mod_netmiko as automation
 # VARS
 d = Dialog(dialog="dialog")
 main_title = d.set_background_title(
-    "BGP Tool COT-CEMIG v1.9 - Built for DWDM and MERIT")
+    "BGP Tool v1.9")
 button_names = {d.OK: "Select", d.CANCEL: "Cancel",
                 d.HELP: "Help", d.EXTRA: "Extra", d.TIMEOUT: "Timeout"}
 search_status = []
 key_state_satelite_link = []
 key_state_main_link = []
-key_state_dwdm = []
-key_state_merit = []
-address_rr_dwdm = ("192.168.2.10", "192.168.2.11")
-address_rr_merit = ("192.168.2.12", "192.168.2.13")
-# address_rr_dwdm = ("10.2.72.60", "10.2.78.6")
-# address_rr_merit = ("10.2.72.208", "10.2.18.25")
+key_state_region_a = []
+key_state_region_b = []
+address_rr_region_a = ("192.168.2.10", "192.168.2.11")
+address_rr_region_b = ("192.168.2.12", "192.168.2.13")
+
 
 
 # TODO
@@ -119,7 +118,7 @@ class classProcConfigs:
 
             if iterate == 1:
 
-                # read input file - Automation to Main Link - DWDM e MERIT
+                # read input file - Automation to Main Link - REGION_A  and REGION_B
                 self.file_configs_default = open(self.configs_default, "w")
                 # self.file_configs_default.write("configure terminal" "\n")
                 self.file_configs_default.write("router bgp 266604" "\n")
@@ -127,7 +126,6 @@ class classProcConfigs:
                 self.file_configs_default.close()
 
                 self.file_configs_default = open(self.configs_default, "r")
-
                 for linhas in self.file_configs_default:
 
                     self.file_configs_automation = open(
@@ -151,7 +149,7 @@ class classProcConfigs:
 
             if iterate == 1:
 
-                # read input file - Automation to Satelite Link - DWDM e MERIT
+                # read input file - Automation to Satelite Link - REGION_A e REGION_B
                 self.file_configs_default = open(self.configs_default, "w")
                 # self.file_configs_default.write("configure terminal" "\n")
                 self.file_configs_default.write("router bgp 266604" "\n")
@@ -180,29 +178,29 @@ class classProcConfigs:
                 self.file_configs_automation.close()
 
     # Oriented of objects
-    def proc_configs_dwdm():
+    def proc_configs_region_a():
 
-        # DWDM Atributes
-        dwdm_file_tmp = "tmp/configs_temp_dwdm.txt"
-        dwdm_file_default = "tmp/configs_default_dwdm.txt"
-        dwdm_file_automation = "tmp/configs_automation_dwdm.txt"
+        # REGION_A Atributes
+        region_a_file_tmp = "tmp/configs_temp_region_a.txt"
+        region_a_file_default = "tmp/configs_default_region_a.txt"
+        region_a_file_automation = "tmp/configs_automation_region_a.txt"
 
-        # DWDM Objects
-        configs_merit = classProcConfigs(
-            dwdm_file_tmp, dwdm_file_default, dwdm_file_automation)
-        configs_merit.create_peer_configs()
+        # REGION_A Objects
+        configs_region_b = classProcConfigs(
+            region_a_file_tmp, region_a_file_default, region_a_file_automation)
+        configs_region_b.create_peer_configs()
 
-    def proc_configs_merit():
+    def proc_configs_region_b():
 
         # Merit Atributes
-        merit_file_tmp = "tmp/configs_temp_merit.txt"
-        merit_file_default = "tmp/configs_default_merit.txt"
-        merit_file_automation = "tmp/configs_automation_merit.txt"
+        region_b_file_tmp = "tmp/configs_temp_region_b.txt"
+        region_b_file_default = "tmp/configs_default_region_b.txt"
+        region_b_file_automation = "tmp/configs_automation_region_b.txt"
 
         # Merit Objects
-        configs_merit = classProcConfigs(
-            merit_file_tmp, merit_file_default, merit_file_automation)
-        configs_merit.create_peer_configs()
+        configs_region_b = classProcConfigs(
+            region_b_file_tmp, region_b_file_default, region_b_file_automation)
+        configs_region_b.create_peer_configs()
 
 
 class classMain:
@@ -216,7 +214,7 @@ class classMain:
         def clear_tmp_files():
 
             test_file_exist = [
-                "test -d tmp/configs_default_dwdm.txt tmp/configs_temp_dwdm.txt tmp/configs_automation_dwdm.txt tmp/configs_default_merit.txt tmp/configs_temp_merit.txt tmp/configs_automation_merit.txt || rm -rf tmp/*"]
+                "test -d tmp/configs_default_region_a.txt tmp/configs_temp_region_a.txt tmp/configs_automation_region_a.txt tmp/configs_default_region_b.txt tmp/configs_temp_region_b.txt tmp/configs_automation_region_b.txt || rm -rf tmp/*"]
             subprocess.run(test_file_exist, shell=True)
 
     except (ValueError, IndexError):
@@ -279,14 +277,14 @@ class classMain:
         # Clear status of options and temporary files
         key_state_main_link.clear()
         key_state_satelite_link.clear()
-        key_state_dwdm.clear()
-        key_state_merit.clear()
+        key_state_region_a.clear()
+        key_state_region_b.clear()
         search_status.clear()
         classMain.clear_tmp_files()
 
         try:
 
-            d.infobox("Bem Vindo(a) a ferramenta BGP Tool COT-CEMIG",
+            d.infobox("Bem Vindo(a) a ferramenta BGP Tool ",
                       width=60, height=10)
 
             time.sleep(1)
@@ -297,7 +295,7 @@ class classMain:
                                                "", False),
                                               ],
                                      title="Menu de Comutação.",
-                                     backtitle="BGP Tool COT-CEMIG v1.9 - Built for DWDM and MERIT", width=60, height=20,
+                                     backtitle="BGP Tool  v1.9 - Built for REGION_A and REGION_B", width=60, height=20,
                                      help_button=True, help_tags=True, help_label="Ajuda", help_status=True, cancel_label="Sair")
 
             if code == d.HELP:
@@ -351,83 +349,26 @@ class classMain:
 
         # Clear variables and temporary files
         classMain.clear_tmp_files()
-        key_state_dwdm.clear()
-        key_state_merit.clear()
+        key_state_region_a.clear()
+        key_state_region_b.clear()
 
         try:
 
-            code, tags = d.checklist("Lista de Sites - COS DIGITAL - CEMIG:",
-                                     choices=[("Baguari SE", "", False),
-                                              ("Barao de Cocais SE 3", "", False),
-                                              ("Barbacena SE 2", "", False),
-                                              ("Barreiro SE 1", "", False),
-                                              ("Bom Despacho SE 3", "", False),
-                                              ("Braunas SE", "", False),
-                                              ("Camargos UHE", "", False),
-                                              ("Conselheiro Pena SE", "", False),
-                                              ("Emborcacao SE", "--> Comuta também Theodomiro C Santiago SE (UHE Emborcacao)", False),
-                                              # ("Gafanhoto UHE", "Sem Satelite", False),
-                                              ("Guilman Amorim SE", "", False),
-                                              # ("Igarape UTE", "Sem Satelite", False),
-                                              ("Ipatinga SE 1", "", False),
-                                              # ("Irape SE", "Sem Satelite", False),
-                                              ("Irape UHE", "", False),
-                                              ("Itabira SE 2", "", False),
-                                              ("Itabira SE 4", "", False),
-                                              ("Itajuba SE 3", "", False),
-                                              # ("Itabira SE 5", "Sem Satelite", False),
-                                              ("Itabirito SE 2", "", False),
-                                              ("Itutinga SE 345KV", "", False),
-                                              ("Itutinga UHE", "", False),
-                                              ("Jaguara SE 500KV",
-                                               "--> Comuta também Jaguara SE 345KV", False),
-                                              ("Jeceaba SE", "", False),
-                                              ("Joao Molevade SE 2", "", False),
-                                              # ("Joao Molevade SE 4", "Sem Satelite", False),
-                                              ("Juiz de Fora SE 1", "", False),
-                                              ("Lafaiete SE 1", "", False),
-                                              ("Mascarenhas SE", "", False),
-                                              ("Mesquita SE", "", False),
-                                              ("Montes Claros SE 2", "", False),
-                                              ("Nova Lima SE 6", "", False),
-                                              ("Nova Ponte SE",
-                                               "--> Comuta também Nova Ponte UHE", False),
-                                              ("Ouro Preto SE 2", "", False),
-                                              ("Pimenta SE", "", False),
-                                              ("Pirapora SE 2", "", False),
-                                              ("Porto Estrela SE", "", False),
-                                              # ("Queimado SE", "Validar Route Reflector esta apontado para o Merit", False),
-                                              ("Rosal UHE", "", False),
-                                              ("Sa Carvalho UHE", "", False),
-                                              ("Sabara SE 3", "", False),
-                                              ("Salto Grande SE", "", False),
-                                              ("Santos Dumont SE 2", "", False),
-                                              ("Sao Goncalo do Para SE", "", False),
-                                              ("Sao Gotardo SE 2", "", False),
-                                              ("Sao Simao SE", "", False),
-                                              ("Sete Lagoas SE 4", "", False),
-                                              ("Taquaril SE", "", False),
-                                              ("Timoteo SE 1", "", False),
-                                              ("Timoteo SE 2", "", False),
-                                              ("Tres Marias SE", "", False),
-                                              ("Tres Marias UHE", "", False),
-                                              # ("Uberaba 1 SE", "Sem Satelite", False),
-                                              # ("Uberlandia Radio SE", "Sem Satelite", False),
-                                              # ("Valadares SE 1", "Sem Satelite", False),
-                                              ("Valadares SE 2", "", False),
-                                              # ("Valadares SE 6", "Sem Satelite", False),
-                                              ("Varzea da Palma 1 SE", "", False),
-                                              ("Varzea da Palma 4 SE", "", False),
-                                              ("Vespasiano SE 2", "", False),
-                                              ("Volta Grande SE", "", False)],
+            code, tags = d.checklist("Lista de Sites:",
+                                     choices=[("Site A", "", False),
+                                              ("Site B", "", False),
+                                              ("Site C", "", False),
+                                              ("Site D", "", False),
+                                              ("Site E", "", False)
+                                             ],
                                      title="Escolha a localidade para comutação.",
-                                     backtitle="BGP Tool COT-CEMIG v1.9 - Built for DWDM and MERIT", width=70, height=30,
+                                     backtitle="BGP Tool  v1.9 - Built for REGION_A and REGION_B", width=70, height=30,
                                      help_button=True, help_tags=True, help_status=True, help_label="Ajuda", cancel_label="Sair", list_height=20, extra_button=True, extra_label="Voltar")
 
             if code == d.HELP:
 
                 d.msgbox("Você precisa selecionar uma localidade com a tecla espaço e depois precionar a tecla \"ENTER\" para realizar a comutação conforme desejado.\
-                          Neste menu é possível a seleção de múltiplos sites (COS-DIGITAL) para comutação.",
+                          Neste menu é possível a seleção de múltiplos sites para comutação.",
                          width=60, height=10)
                 classMain.main_menu()
 
@@ -442,11 +383,11 @@ class classMain:
 
                 for iterate in tags:
 
-                    get_peers = neighbor.peers_cemig_cos_digital.get(iterate)
+                    get_peers = neighbor.peers.get(iterate)
 
-                    if "DWDM" in get_peers:
+                    if "REGION_A" in get_peers:
 
-                        key_state_dwdm.append(1)
+                        key_state_region_a.append(1)
                         # Regex - match ip addresses of peers BGP
                         t = re.compile(
                             r"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}")
@@ -455,7 +396,7 @@ class classMain:
                         for peer in get_d:
 
                             # Write file for automation
-                            file = open("tmp/configs_temp_dwdm.txt", "a")
+                            file = open("tmp/configs_temp_region_a.txt", "a")
                             str_peers = repr(peer).replace(
                                 "'", "").replace("[", "").replace("]", "")
                             file.write("neighbor" " " + str_peers +
@@ -465,9 +406,9 @@ class classMain:
 
                             file.close()
 
-                    if "MERIT" in get_peers:
+                    if "REGION_B" in get_peers:
 
-                        key_state_merit.append(1)
+                        key_state_region_b.append(1)
                         # Regex - match ip addresses of peers BGP
                         t = re.compile(
                             r"[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}")
@@ -475,7 +416,7 @@ class classMain:
 
                         for peer in get_m:
                             # Write file for automation
-                            file = open("tmp/configs_temp_merit.txt", "a")
+                            file = open("tmp/configs_temp_region_b.txt", "a")
                             str_peers = repr(peer).replace(
                                 "'", "").replace("[", "").replace("]", "")
                             file.write("neighbor" " " + str_peers +
@@ -486,18 +427,18 @@ class classMain:
                             file.close()
 
                 # Sentence Oriented of Object
-                if 1 in key_state_dwdm and 1 in key_state_merit:
+                if 1 in key_state_region_a and 1 in key_state_region_b:
 
-                    classProcConfigs.proc_configs_merit()
-                    classProcConfigs.proc_configs_dwdm()
+                    classProcConfigs.proc_configs_region_b()
+                    classProcConfigs.proc_configs_region_a()
 
-                elif 1 in key_state_dwdm:
+                elif 1 in key_state_region_a:
 
-                    classProcConfigs.proc_configs_dwdm()
+                    classProcConfigs.proc_configs_region_a()
 
-                elif 1 in key_state_merit:
+                elif 1 in key_state_region_b:
 
-                    classProcConfigs.proc_configs_merit()
+                    classProcConfigs.proc_configs_region_b()
 
                 d.yesno("Tem certeza que deseja comutar o trafêgo da(s) localidade(s)?",
                         width=40, height=10)
@@ -513,17 +454,17 @@ class classMain:
                     d.gauge_update(40)
 
                     # Test File Automation
-                    test_file_dwdm_exist = os.path.isfile(
-                        "tmp/configs_automation_dwdm.txt")
-                    test_file_merit_exist = os.path.isfile(
-                        "tmp/configs_automation_merit.txt")
+                    test_file_region_a_exist = os.path.isfile(
+                        "tmp/configs_automation_region_a.txt")
+                    test_file_region_b_exist = os.path.isfile(
+                        "tmp/configs_automation_region_b.txt")
 
-                    # Automation DWDM and MERIT
-                    if test_file_dwdm_exist == True:
+                    # Automation REGION_A and REGION_B
+                    if test_file_region_a_exist == True:
 
-                        automation.device_list_dwdm.clear()
+                        automation.device_list_region_a.clear()
 
-                        for ip in address_rr_dwdm:
+                        for ip in address_rr_region_a:
 
                             device_telnet = "cisco_ios_telnet"
                             device_ssh = "cisco_ios_ssh"
@@ -531,17 +472,17 @@ class classMain:
                             automation.ProcessConnectionDwdm.test_connection(
                                 ip, device_telnet, device_ssh)
 
-                        file_cmd = "tmp/configs_automation_dwdm.txt"
+                        file_cmd = "tmp/configs_automation_region_a.txt"
                         send_cmd = None
 
-                        automation.ProcessFetch.multithread_dwdm(
+                        automation.ProcessFetch.multithread_region_a(
                             file_cmd, send_cmd)
 
-                    if test_file_merit_exist == True:
+                    if test_file_region_b_exist == True:
 
-                        automation.device_list_merit.clear()
+                        automation.device_list_region_b.clear()
 
-                        for ip in address_rr_merit:
+                        for ip in address_rr_region_b:
 
                             device_telnet = "cisco_ios_telnet"
                             device_ssh = "cisco_ios_ssh"
@@ -549,9 +490,9 @@ class classMain:
                             automation.ProcessConnectionMerit.test_connection(
                                 ip, device_telnet, device_ssh)
 
-                        file_cmd = "tmp/configs_automation_merit.txt"
+                        file_cmd = "tmp/configs_automation_region_b.txt"
                         send_cmd = None
-                        automation.ProcessFetch.multithread_merit(
+                        automation.ProcessFetch.multithread_region_b(
                             file_cmd, send_cmd)
 
                     d.gauge_update(80)

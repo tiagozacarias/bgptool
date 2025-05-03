@@ -21,8 +21,8 @@ password = os.environ["PASSWORD_NETMIKO"]
 enable_password = os.environ["PASSWORD_ENABLE_NETMIKO"]
 
 # Devices
-device_list_dwdm = []
-device_list_merit = []
+device_list_region_a = []
+device_list_region_b = []
 
 # Multithreads
 threads = []
@@ -45,7 +45,7 @@ class ProcessConnectionDwdm:
 
         if result_telnet == 0:
 
-            device_list_dwdm.append({"device_type": device_telnet, "ip": ip,
+            device_list_region_a.append({"device_type": device_telnet, "ip": ip,
                                      "username": username, "password": password,
                                      "timeout": 50, "fast_cli": False, "global_delay_factor": 2,
                                      "session_log": "log.txt", "session_log_file_mode": "append"})
@@ -61,7 +61,7 @@ class ProcessConnectionDwdm:
 
             if result_ssh == 0:
 
-                device_list_dwdm.append({"device_type": device_ssh, "ip": ip,
+                device_list_region_a.append({"device_type": device_ssh, "ip": ip,
                                          "username": username, "password": password,
                                          "timeout": 50, "fast_cli": False, "global_delay_factor": 2,
                                          "session_log": "log.txt", "session_log_file_mode": "append"})
@@ -92,7 +92,7 @@ class ProcessConnectionMerit:
 
         if result_telnet == 0:
 
-            device_list_merit.append({"device_type": device_telnet, "ip": ip,
+            device_list_region_b.append({"device_type": device_telnet, "ip": ip,
                                       "username": username, "password": password,
                                       "timeout": 50, "fast_cli": False, "global_delay_factor": 2,
                                       "session_log": "log.txt", "session_log_file_mode": "append"})
@@ -108,7 +108,7 @@ class ProcessConnectionMerit:
 
             if result_ssh == 0:
 
-                device_list_merit.append({"device_type": device_ssh, "ip": ip,
+                device_list_region_b.append({"device_type": device_ssh, "ip": ip,
                                           "username": username, "password": password,
                                           "timeout": 50, "fast_cli": False, "global_delay_factor": 2,
                                           "session_log": "log.txt", "session_log_file_mode": "append"})
@@ -186,9 +186,9 @@ class ProcessFetch:
                     f"Value Erro", file=f)
                 f.close()
 
-    def multithread_dwdm(file_cmd, send_cmd):
+    def multithread_region_a(file_cmd, send_cmd):
 
-        for router in device_list_dwdm:
+        for router in device_list_region_a:
             th = threading.Thread(
                 target=ProcessFetch.connect_and_fetch, args=(file_cmd, send_cmd, router,))
             th.start()
@@ -197,9 +197,9 @@ class ProcessFetch:
         for th in threads:
             th.join()
 
-    def multithread_merit(file_cmd, send_cmd):
+    def multithread_region_b(file_cmd, send_cmd):
 
-        for router in device_list_merit:
+        for router in device_list_region_b:
             th = threading.Thread(
                 target=ProcessFetch.connect_and_fetch, args=(file_cmd, send_cmd, router,))
             th.start()
