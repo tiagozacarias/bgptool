@@ -1,23 +1,24 @@
 # BGPTool V1.9
 
-- A ferramenta bgptool foi desenvolvida nas linguagens python3, dialog e modulo de automação netmiko com o objetivo de facilitar o dia a dia da operação de rede onde é possivel realizar comutação de tráfego de rede de forma massiva para links secundarios e primarios manipulando o protocolo de roteamento BGP com a criação de filtros de prefixos por vizinhança.
+- The bgptool tool was developed in the languages python3, dialog and netmiko automation module with the objective of facilitating the day-to-day network operation where it is possible to perform massive network traffic switching for secondary and primary links by manipulating the BGP routing protocol with the creation of prefix filters by neighborhood.
 
-# Frontend da Ferramenta:
+# Tool Frontend:
 
-- Frontend conta com o dialog que possue a caracteristica de fornecer opções de forma amigáveis para o usuario.
+- Frontend has the dialog that has the characteristic of providing user-friendly options.
 
-## Exemplo do Frontend:
+# Frontend Example:
 
 --
 
-# Estrutura de comandos enviados na automação para refletores:
+# Structure of commands sent in automation for reflectors:
 
-## ESTRUTURA ESTATICA DE ROUTE-MAP QUE DEVERÁ SER CRIADA NOS REFLETORES DE PREFIXOS
+# STATIC ROUTE-MAP STRUCTURE THAT SHOULD BE CREATED IN THE PREFIX REFLECTORS
+
 
 route-map DENY-ALL deny 10
  description AUTOMACAO - BGPTOOL
 
-## COMUTA PARA LINK SECUNDARIO ##
+# COMUTA FOR SECONDARY LINK #
 
 router bgp 65000 
  address-family vpnv4
@@ -26,7 +27,7 @@ router bgp 65000
   neighbor 10.2.1.15 route-map DENY-ALL in
   neighbor 10.2.1.15 route-map DENY-ALL out
 
-## RETORNANDO PARA LINK PRIMARIO ##
+# RETURNING TO PRIMARY LINK #
 
 router bgp 65000
  address-family vpnv4
@@ -36,18 +37,18 @@ router bgp 65000
   no neighbor 10.2.1.15 route-map DENY-ALL out
 
 
-- Com a filtragem dos prefixos na sessão especifica conforme demostrado acima é possivel manipular e instruir a rede a preferir o caminho desejado.
+- By filtering the prefixes in the specific session as shown above, it is possible to manipulate and instruct the network to prefer the desired path.
 
 
-# Modulo de automação netmiko:
+# Netmiko Automation Module:
 
-- O Modulo de automaçao hoje conta com a linguagem python3 e netmiko que realiza todo o trabalho sendo o componente de execução para o frontend.
+- The Automation Module today has the python3 and netmiko language that does all the work being the execution component for the frontend.
 
-# Modulo de mod_peers:
+# mod_peers module:
 
-- O Modulo de peers foi desenvolvido para agrupar os endereçamentos de vizinhança do BGP e relaciona-los com o seu dominio de rede e refletores.
+- The Peer Module is designed to group BGP neighborhood addresses and relate them to your network domain and reflectors.
 
-# Requerimentos
+# Requirements
 
 - python3.9
 - pythondialog==3.5.3
@@ -55,14 +56,14 @@ router bgp 65000
 - netmiko==4.4.0
 - paramiko==3.4.0
 
-# TODO
+# TOTO
 
-- Identificar o estado das sessões BGP nos refletores antes da automação.
+- Identify the state of BGP sessions on reflectors before automation.
 
 
-# Configuração do terminal MobaXterm para automatizar a abertura da ferramenta.
+# Configuration of the MobaXterm terminal to automate tool opening.
 
-- Na sessão SSH incluir a seguinte linha em Advanced SSH Settings/Execute command:
+- In the SSH session include the following line in Advanced SSH Settings/Execute command:
 
 	cd /bgptool && source .bashrc && python3 bgptool.py
 
