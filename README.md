@@ -59,7 +59,7 @@ TODO:
   - Identify the state of BGP sessions on reflectors before automation.
 
 
-TERMINAL:
+Terminal:
 
   -  Configuration of the MobaXterm terminal to automate tool opening.
 
