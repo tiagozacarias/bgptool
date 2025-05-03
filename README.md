@@ -61,7 +61,7 @@ TODO:
 
 * Configuration of the MobaXterm terminal to automate tool opening.
 
- - In the SSH session include the following line in Advanced SSH Settings/Execute command:
+* In the SSH session include the following line in Advanced SSH Settings/Execute command:
 
         cd /bgptool && source .bashrc && python3 bgptool.py
 
