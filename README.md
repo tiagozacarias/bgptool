@@ -59,9 +59,11 @@ TODO:
   - Identify the state of BGP sessions on reflectors before automation.
 
 
-* Configuration of the MobaXterm terminal to automate tool opening.
+TERMINAL:
 
-* In the SSH session include the following line in Advanced SSH Settings/Execute command:
+  -  Configuration of the MobaXterm terminal to automate tool opening.
+
+  - In the SSH session include the following line in Advanced SSH Settings/Execute command:
 
         cd /bgptool && source .bashrc && python3 bgptool.py
 
