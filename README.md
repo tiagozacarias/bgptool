@@ -6,7 +6,8 @@ TODO:
 
   - Identify the state of BGP sessions on reflectors before automation.
 
-* Tool Frontend:
+
+Tool Frontend:
 
   - Frontend has the dialog that has the characteristic of providing user-friendly options.
 
@@ -15,9 +16,9 @@ Frontend Example:
 
 <img src="https://github.com/tiagozacarias/bgptool/blob/main/bgptool1.png" alt="">
 
---
 
- * Structure of commands sent in automation for reflectors:
+
+* Structure of commands sent in automation for reflectors:
 
         - STATIC ROUTE-MAP STRUCTURE THAT SHOULD BE CREATED IN THE PREFIX REFLECTORS
 
@@ -45,7 +46,8 @@ Frontend Example:
 
 * By filtering the prefixes in the specific session as shown above, it is possible to manipulate and instruct the network to prefer the desired path.
 
-* Netmiko Automation Module:
+Netmiko Automation Module:
+
 
   - The Automation Module today has the python3 and netmiko language that does all the work being the execution component for the frontend.
 
@@ -57,7 +59,7 @@ Frontend Example:
             - export PASSWORD_NETMIKO = "password"
 
 
-* mod_peers module:
+mod_peers module:
 
   - The Peer Module is designed to group BGP neighborhood addresses and relate them to your network domain and reflectors.
 
@@ -70,7 +72,7 @@ Requirements:
             - paramiko==3.4.0
 
 
-TERMINAL:
+Terminal:
 
   -  Configuration of the MobaXterm terminal to automate tool opening.
 
