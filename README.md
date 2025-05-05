@@ -12,6 +12,9 @@ TODO:
 
 Frontend Example:
 
+
+<img src="https://github.com/tiagozacarias/bgptool/blob/main/bgptool1.png" alt="">
+
 --
 
  * Structure of commands sent in automation for reflectors:
